@@ -5,7 +5,6 @@
   sudo apt-get install tightvncserver autocutsel
   vncserver :1
   autocutsel -fork
-# note: the autocutsel command can be added to ~/.vnc/xstartup optionally
 # vnc in from laptop
 #  generate ssh keys
   ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
@@ -25,11 +24,13 @@
   cp ${SET_DIR}/vnc ${HD}/bin/
 #Edit /etc/sudoers file 
   sudo cp ${SET_DIR}/sudoers /etc/
+  sudo chmod 440 /etc/sudoers
 #Add python code for pump monitor
   mkdir -p /home/pi/code/python/pump
   ln -s /home/pi/git/code/python/pump/pump.py /home/pi/code/python/pump/pump.py
 #Edit /etc/rc.local to start vncserver
   sudo cp ${SET_DIR}/rc.local /etc/
+  sudo chmod 750 /etc/rc.local
 #cp .bash_aliases
   cp ${SET_DIR}/.bash_aliases ${HD}
 #expand filesystem
