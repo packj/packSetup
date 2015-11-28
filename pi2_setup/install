@@ -33,7 +33,6 @@
   cp ${SET_DIR}/.bash_aliases ${HD}
   . ${HD}/.bashrc
   sudo raspi-config
-#expand filesystem
 #Change password
 #reboot to start pump
 #attach GPIO wires for pump
