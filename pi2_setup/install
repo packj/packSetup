@@ -6,7 +6,7 @@
 #  cd ~
 #  mkdir git
 #  cd git
-#  git clone https://github.com/packj/packSetup
+#  git clone git@github.com:packj/packSetup.git
 #Run this file to do the rest of the steps!
 #  ./install
 #Install tightvnc
