@@ -26,7 +26,7 @@
   cp ${SET_DIR}/vnc ${HD}/bin/
 #Add python code for pump monitor
   mkdir -p /home/pi/code/python/pump
-  ln -s /home/pi/git/code/python/pump/pump.py /home/pi/code/python/pump/pump.py
+  ln -s /home/pi/git/packSetup/code/python/pump/pump.py /home/pi/code/python/pump/pump.py
 #Edit /etc/rc.local to start vncserver
   sudo cp ${SET_DIR}/rc.local /etc/
   sudo chmod 750 /etc/rc.local
