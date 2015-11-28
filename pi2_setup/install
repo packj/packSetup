@@ -33,3 +33,5 @@
   . ${HD}/.bashrc
 #expand filesystem
 #Change password
+#reboot to start pump
+#attach GPIO wires for pump
