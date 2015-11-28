@@ -22,9 +22,6 @@
   SET_DIR=${HD}/git/packSetup/pi2_setup/files
   mkdir ${HD}/bin
   cp ${SET_DIR}/vnc ${HD}/bin/
-#Edit /etc/sudoers file 
-  sudo cp ${SET_DIR}/sudoers /etc/
-  sudo chmod 440 /etc/sudoers
 #Add python code for pump monitor
   mkdir -p /home/pi/code/python/pump
   ln -s /home/pi/git/code/python/pump/pump.py /home/pi/code/python/pump/pump.py
