@@ -1,6 +1,6 @@
 #Process I used to setup my raspberry pi 2:
 
-#Use noobs to install raspian... expand filesystem
+#Use noobs to install raspbian... expand filesystem
 #Change password
 #Clone packSetup
 #  cd ~
