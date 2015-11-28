@@ -1,0 +1,27 @@
+#Process I used to setup my raspberry pi 2:
+
+#Use noobs to install raspian... expand filesystem
+#Change password
+#Clone packSetup
+#  cd ~
+#  mkdir git
+#  cd git
+#  git clone https://github.com/packj/packSetup
+#Run this file to do the rest of the steps!
+#  ./install
+#Install tightvnc
+  sudo apt-get tightvnc
+#Create ~/bin/vnc
+  HD=/home/pi
+  SET_DIR=${HD}/git/packSetup/pi2_setup/files
+  mkdir ${HD}/bin
+  cp ${SET_DIR}/vnc ${HD}/bin/
+#Edit /etc/sudoers file 
+  sudo cp ${SET_DIR}/sudoers /etc/
+#Add python code for pump monitor
+  mkdir -p /home/pi/code/python/pump
+  ln -s /home/pi/git/code/python/pump/pump.py /home/pi/code/python/pump/pump.py
+#Edit /etc/rc.local to start vncserver
+  sudo cp ${SET_DIR}/rc.local /etc/
+#cp .bash_aliases
+  cp ${SET_DIR}/.bash_aliases ${HD}
