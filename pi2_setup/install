@@ -40,3 +40,4 @@
 #Change password, boot option to autologin, hostname to raspberrypi2
 #reboot to start pump
 #attach GPIO wires for pump
+#follow instructions here to setup smtp: http://iqjar.com/jar/sending-emails-from-the-raspberry-pi/ (don't forget to get app specific passwd from google)
