@@ -2,12 +2,12 @@
 
 #Use noobs to install raspbian... 
 #Install tightvnc
-#  Ensure keyboard settings are correct (US instead of UK)
+#Optional: Ensure keyboard settings are correct (US instead of UK)
 #  sudo apt-get install tightvncserver autocutsel
 #  vncserver :1
 #  autocutsel -fork
-#setup wifi (enter key, etc)
 #vnc in from laptop
+#setup wifi (enter key, etc)
 #  generate ssh keys
 #  ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 #upload to github
