@@ -6,10 +6,11 @@
 #  sudo apt-get install tightvncserver autocutsel
 #  vncserver :1
 #  autocutsel -fork
-# vnc in from laptop
+#setup wifi (enter key, etc)
+#vnc in from laptop
 #  generate ssh keys
 #  ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-# upload to github
+#upload to github
 #Clone packSetup
 #  cd ~
 #  mkdir git
@@ -33,6 +34,6 @@
   cp ${SET_DIR}/.bash_aliases ${HD}
   . ${HD}/.bashrc
   sudo raspi-config
-#Change password
+#Change password, boot option to autologin, hostname to raspberrypi2
 #reboot to start pump
 #attach GPIO wires for pump
