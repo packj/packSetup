@@ -1,16 +1,23 @@
 #Process I used to setup my raspberry pi 2:
 
-#Use noobs to install raspbian... expand filesystem
-#Change password
+#Use noobs to install raspbian... 
+#Install tightvnc
+  sudo apt-get install tightvncserver autocutsel
+  vncserver :1
+  autocutsel -fork
+# note: the autocutsel command can be added to ~/.vnc/xstartup optionally
+# vnc in from laptop
+#  generate ssh keys
+  ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+# upload to github
 #Clone packSetup
 #  cd ~
 #  mkdir git
 #  cd git
 #  git clone git@github.com:packj/packSetup.git
 #Run this file to do the rest of the steps!
-#  ./install
-#Install tightvnc
-  sudo apt-get tightvnc
+  cd packSetup/pi2Setup
+  ./install
 #Create ~/bin/vnc
   HD=/home/pi
   SET_DIR=${HD}/git/packSetup/pi2_setup/files
@@ -25,3 +32,5 @@
   sudo cp ${SET_DIR}/rc.local /etc/
 #cp .bash_aliases
   cp ${SET_DIR}/.bash_aliases ${HD}
+#expand filesystem
+#Change password
