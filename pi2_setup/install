@@ -16,8 +16,8 @@
 #  cd git
 #  git clone git@github.com:packj/packSetup.git
 #Run this file to do the rest of the steps!
-  cd packSetup/pi2Setup
-  ./install
+#  cd packSetup/pi2Setup
+#  ./install
 #Create ~/bin/vnc
   HD=/home/pi
   SET_DIR=${HD}/git/packSetup/pi2_setup/files
