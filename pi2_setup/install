@@ -30,8 +30,9 @@
 #Edit /etc/rc.local to start vncserver
   sudo cp ${SET_DIR}/rc.local /etc/
   sudo chmod 750 /etc/rc.local
-#cp .bash_aliases
+#cp .bash_aliases, etc
   cp ${SET_DIR}/.bash_aliases ${HD}
+  cp ${SET_DIR}/dotgitconfig ${HD}/.gitconfig
   . ${HD}/.bashrc
   sudo raspi-config
 #Change password, boot option to autologin, hostname to raspberrypi2
