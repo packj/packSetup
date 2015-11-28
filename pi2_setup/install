@@ -34,6 +34,7 @@
   cp ${SET_DIR}/.bash_aliases ${HD}
   cp ${SET_DIR}/dotgitconfig ${HD}/.gitconfig
   cp ${SET_DIR}/xstartup ${HD}/.vnc/
+  sudo cp ${SET_DIR}/ttyoutput.conf /etc/systemd/system/rc-local.service.d/ttyoutput.conf
   . ${HD}/.bashrc
   sudo raspi-config
 #Change password, boot option to autologin, hostname to raspberrypi2
