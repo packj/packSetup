@@ -2,12 +2,12 @@
 
 #Use noobs to install raspbian... 
 #Install tightvnc
-  sudo apt-get install tightvncserver autocutsel
-  vncserver :1
-  autocutsel -fork
+#  sudo apt-get install tightvncserver autocutsel
+#  vncserver :1
+#  autocutsel -fork
 # vnc in from laptop
 #  generate ssh keys
-  ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+#  ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 # upload to github
 #Clone packSetup
 #  cd ~
