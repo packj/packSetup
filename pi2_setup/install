@@ -30,5 +30,6 @@
   sudo chmod 750 /etc/rc.local
 #cp .bash_aliases
   cp ${SET_DIR}/.bash_aliases ${HD}
+  . ${HD}/.bashrc
 #expand filesystem
 #Change password
