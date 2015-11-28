@@ -2,6 +2,7 @@
 
 #Use noobs to install raspbian... 
 #Install tightvnc
+#  Ensure keyboard settings are correct (US instead of UK)
 #  sudo apt-get install tightvncserver autocutsel
 #  vncserver :1
 #  autocutsel -fork
