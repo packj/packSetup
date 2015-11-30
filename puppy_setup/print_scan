@@ -1,0 +1,18 @@
+This page very helpful for setting up printer:
+  http://murga-linux.com/puppy/viewtopic.php?t=42533
+install debbi
+get drivers: http://support.brother.com/g/s/id/linux/en/download_prn.html#HL-2280DW
+(2 deb pkgs)
+edit A4 -> letter in printer rc file
+launch cups
+delete printer listed as USB since it is networked
+add printer --> appsocket   socket://192.168.1.8:9100
+browse to ppd file here:  /usr/share/cups/model
+duplex no_tumble
+
+scanning:
+get brscan4 file (32 bit) here:http://support.brother.com/g/s/id/linux/en/download_scn.html
+debbi it
+brsaneconfig4 -a name=Brother model=HL2280DW ip=192.168.1.8
+One last important thing: you must not use 24bit Color Fast... just use 24bit Color... otherwise you will get a seg fault!
+(preferences->show advanced options in peasyscan)
