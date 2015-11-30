@@ -16,3 +16,4 @@ debbi it
 brsaneconfig4 -a name=Brother model=HL2280DW ip=192.168.1.8
 One last important thing: you must not use 24bit Color Fast... just use 24bit Color... otherwise you will get a seg fault!
 (preferences->show advanced options in peasyscan)
+after changing from fast to regular you can save to avoid this step in the future (preferences ->save)
