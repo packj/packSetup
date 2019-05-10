@@ -1,0 +1,365 @@
+
+# Passwordless SSH Tutorial:
+
+# local$ ssh-keygen -t dsa
+# local$ scp ~/.ssh/id_dsa.pub remote
+# local$ ssh username@remote
+# remote$ cat ~/id_dsa.pub >> ~/.ssh/authorized_keys
+# remote$ chmod 644 ~/.ssh/authorized_keys
+# remote$ exit
+# local$ ssh username@remote - Now instead of the normal password you should be asked for the password you entered for your dsa key. 
+
+Note that for passwordless ssh to work, there are a bunch of file/directory permissions that must be set correctly.  Even running
+ssh in verbose mode won't tell you what's wrong (ssh -v).  Fortunately, if you can read the logs on the remote system, it can give
+you a clue.  When I had this problem on an AW (awesome), I tried:
+tail /var/log/messages
+as root. The solution was:
+
+chmod go-w /export/home/sdc
+
+on my AW.  There is also a blog entry on the topic here:
+
+http://recursive-design.com/blog/2010/09/14/ssh-authentication-refused/
+
+
+#useful linux commands
+
+taskset: This can be used to set which cores have affinity for a process, so you can choose to run on CPU0, e.g. instead of CPU1
+
+  http://xmodulo.com/run-program-process-specific-cpu-cores-linux.html
+
+# mouse sensitivity
+
+I set the mouse sensitivity using the following command:
+
+xset m 3/2 20
+
+3/2 is the acceleration factor
+20 is the threshold (see man xset)
+
+
+# redirecting to a file that already exists
+Most shells can be set to noclobber mode, which means they will give an error if you try to redirect to a file that already exists
+This can be overridden with the >| operator (http://en.wikipedia.org/wiki/Clobbering)
+
+
+# sshfs
+
+ This is a program to mount a remote file system locally through ssh.
+
+
+#  GEMS VNC on the AW
+
+1) login to AW
+
+#setenv DISPLAY :0  
+gemsvnc -shared -runforever -display :0
+
+2) from local machine
+
+vncviewer -PreferredEncoding=hextile 3.1.220.31 -FullColor
+  -- or --
+vncviewer -PreferredEncoding=hextile 3.1.220.31 -FullColor
+
+The first one may be more reliable.  I sometimes get "rect too big" or some other error when the encoding is not specified.
+
+
+# VNC from laptop to fig
+
+1) ensure vncserver is running on bluering (can run one for each resolution if you want)
+   vncserver :1 -depth 24 -geometry 1600x1200
+   vncserver :2 -depth 24 -geometry 2530x1344
+   vncserver :3 -depth 24 -geometry 1600x900 
+vnc1:  resolution for my old monitor  
+vnc2:    for my new monitor 
+vnc3:    for my laptop screen
+
+2) run realvnc from laptop type in IP addres  xxx.xxx.xxx.xxx:1
+3) type in password
+4) After loggin in via vnc, run vncconfig if you want to be able to copy/paste between the two
+   vncconfig &
+
+NOTES: once I had a problem with the X authentication (see xauth section in this file)
+ (unnecessary, I believe) run autocutsel on bluering
+ Sometimes I have trouble getting vnc to work properly (for example some of the applets won't load including the window list applet).  The solution seems to be to log off of bluering from the direct connection (not over vnc or putty, but actually being hooked into bluering via keyboard)
+
+NOTE:
+For some reason, people sometimes may have trouble connecting with VNC when using the ip address, but it works with the name.
+
+NOTE: When I first got fig, I could not run VNC.  The problem was solved by following the advice here:
+  http://ubuntuforums.org/showthread.php?t=1480094
+Basically I added the following to my xstartup:
+unset DBUS_SESSION_BUS_ADDRESS
+after this line:
+unset SESSION_MANAGER
+
+
+
+# xauth
+
+If you have problems using the xserver, you may need to make sure the XAUTHORITY environment variable is set correctly
+If this is happening only over vnc, try logging on directly and inspecting the variable to make sure that you have set it the same.
+You can also google 'xauth list' and 'xauth add'
+
+Another time my X authentication was broken and the problem turned out to be that I was not the owner of my own home directory (nor did I have write permission).  This was because my home directory had been migrated from one server to another and the guy who did it forgot to make me owner.
+
+
+
+#  Determine which shared libraries will be used by an executable:
+
+setenv LD_LIBRARY_PATH <whatever you need>
+ldd <executable>
+
+# Determine what symbols are found in an executable:
+
+nm <executable>
+
+# Determine if an executable is 64 bit:
+
+file <executable>
+
+# Open terminal with multiple tabs:
+
+gnome-terminal --tab-with-profile=Default --working-directory=/home/packj/ --tab-with-profile=Default --working-directory=/home/packj/m/
+
+# rsync
+
+rsync -rtuvz --bwlimit 500 <src> <dest>
+
+bwlimit should be significantly lower than 5000 to make any difference within GRC
+For MKE transfers, it must be much lower than that
+
+<src>  :  user@3.1.xxx.xxx:/path/to/dir   OR   /path/to/dir
+<dest> :  user@3.1.xxx.xxx:/path/to/dir   OR   /path/to/dir
+
+The bwlimit throttles the bandwidth so that you don't hammer the connection
+
+Also, sometimes the command line becomes too large when using wildcard characters, so you can use find to generate a filelist that you want to transfer and do something like this (from the man page):
+
+   rsync -a --files-from=:/path/file-list src:/ /tmp/copy
+
+This would copy all the files specified in the /path/file-list file that was located on the remote "src" host.
+
+if you want all the files to go in the same directory (not keep the original directory structure) you should instead use sftp like this:
+
+sftp -o "batchmode no" -b cmd_list username@remotehost
+
+where cmd_list is the list of commands (e.g. "get dir/subdir/file1")
+
+# teminal emulators
+
+some translate different keystrokes into the same character sequence (like Konsole does with control-right and right)
+suggest using gnome-terminal
+
+# emacs key bindings
+
+;http://nex-3.com/posts/45-efficient-window-switching-in-emacs
+ (describes how to bind keys that are translated by a terminal emulator -- use C-q to determine translation)
+;http://sunsite.ualberta.ca/Documentation/Gnu/emacs-21.1/html_chapter/faq_10.html#SEC134
+
+# emacs font-lock faces
+to see a list of the font-lock settings: M-x list-faces-display
+you can also change the settings this way
+;http://homes.esat.kuleuven.be/~emacs/config.html#fontlocking-colors
+note that when you are using a terminal for emacs you may only have a few (e.g., 8) colors available
+You can edit these colors in a way specific to you terminal (for gnome-terminal use menubar -> edit -> current profile -> colors -> color palette
+
+# pkg-config
+
+there are .pc files that help locate libraries, etc for installed programs
+just add the directory containing these files to an environment variable PKG_CONFIG_PATH
+
+# RPM location for bluering
+
+All standard RedHat RPMs are located in the following directory:
+/software/rhel/WS4.0u5-x86_64/RedHat/RPMS
+
+To install any one of them, copy them to the following directory and wait:
+/usr/local/rpm/incoming
+
+To check what is installed run:
+rpm -qa
+or
+rpm -qa | grep <string>
+
+#
+#Installing rpms without root 
+# (grabbed from fpmurphy response on website http://www.linuxquestions.org/questions/linux-newbie-8/rpm-installation-having-no-root-access-762363/):
+#
+Setup a private RPM database
+
+mkdir -p /home/username/local/lib/rpm
+rpm --initdb --root /home/username/local --dbpath /home/username/local/lib/rpm
+
+If you do not like ~/local/lib/rpm, you can pick a different subdirectory structure.
+
+Check for package dependancies
+
+rpm -ivh package.rpm
+
+If dependancies found, install the dependant RPMs before installing the package RPM.
+
+Finally install the package
+
+rpm --root /home/username/local --dbpath /home/username/local/lib/rpm \
+--relocate /usr=/home/username/local --nodeps -ivh package.rpm
+
+To use the package you will have to play around with LD_LIBRARY_PATH to let the
+loader know where the required shared labraries are and modify your PATH to
+include any required scripts and executables.
+
+
+
+# gdb in freemat
+
+(setup library path, etc from fm script)
+gdb fm_exec
+run -nogui
+
+# valgrind in freemat
+
+(setup library path, etc from fm script)
+valgrind --log-file=logfilename fm_exec -nogui
+
+# scandata from MKE database
+
+If you are ever looking for some type of data:
+There are csv files (can be read into excel) with a LOT of scan file locations.
+/recon/scandata/in/*.csv
+
+# setting up OpenGE ssh keys
+
+ssh-keygen -t dsa -b 1024 -C "packj@openge.ge.com"
+# this should put two files in ~/.ssh (id_dsa, which is a PRIVATE key and id_dsa.pub)
+# you need to put the contents of the .pub (public) file in your ssh keys on the openge website
+# it will take ~1/2 hour to take effect
+# Note: if there is already a id_dsa.pub file, you can use it and avoid the above
+
+
+# using find -exec to (for example) add a .sdcopen extension to all the files that have 'CT' in them
+
+find . -name '*CT*' -exec mv \{\} \{\}.sdcopen \;
+
+# crontabs:
+
+edit:
+  crontab -e  
+list:
+  crontab -l
+
+The columns are: minute, hour, day, month, dayOfWeek, command (see wikipedia: cron)
+
+my current crontab is located in $HOME/svn/mystuff/helpfiles/crontab
+
+
+# change default shell at GRC (yp prefix because it uses NIS)
+ypchsh
+
+# change passwd at GRC (yp prefix because it uses NIS)
+yppasswd
+
+# SVN ignore
+
+Here's what to do to set up filenames/directories/filetypes to ignore:
+  svn propedit svn:ignore .
+Then edit the file to have one entry per line, e.g.:
+  *.log
+  *.prep
+  *.raw
+  my_stuff
+  other
+
+# FreeMat root path disappears
+
+I have (once or twice) had freemat's root path disappear from my ~/.config/FreeMat/FreeMat.conf file
+To fix this, run freemat with the -i flag like this:
+/home/packj/installed/x86_64/bin/FreeMat_testref -i /software/freemat/installed/share/FreeMat-3.5/
+I have found that I can just chmod the .conf file to 400 permissions and this solves the problem... of course, then I don't get my
+history from the last run, but at least I know how to configure that.
+
+# FreeMat Quirks
+    In some cases I list steps to reproduce the quirk, but am not sure exactly what the problem is.
+    There are probably other ways to reproduce it so I'm not sure what specifically to watch out 
+    for... more tests would be required to figure it out.
+
+1) To reproduce this quirk:
+    - Log on through vnc
+    - start freemat
+    plot([-3 -3 3 3 -3],[-3 3 3 -3 -3],':k');
+    set(gca,'xlim',[-14 14]);
+    try to resize the figure by dragging the lower right corner
+    Result: Everything dies (freemat, vnc, gnome, etc.)... according to dmesg Xvnc has a segfault
+
+    Note: This does not happen when you replace the : by a - in the plot cmd (or omit the :)
+
+
+# Install Perl Modules using CPAN as non-root user
+
+Info from this site: http://www.perlmonks.org/?node_id=361887
+This site also very useful: http://sial.org/howto/perl/life-with-cpan/non-root/
+
+Some adaptation of this sequence of commands will set you up: 
+
+$ mkdir ~/.cpan
+$ mkdir ~/.cpan/CPAN
+$ cd ~/.cpan/CPAN
+$ cp /usr/lib/perl5/5.8.4/CPAN/Config.pm MyConfig.pm
+$ perl -pi -e 's/\/root\/.cpan/$ENV{HOME}\/.cpan/g' MyConfig.pm
+$ perl -pi -e 's/makepl_arg'\'' => q\[/makepl_arg'\'' => q\[PREFIX=$ENV{HOME}/g' MyConfig.pm
+
+# need to also set up PERL5LIB (all caps) environment var (add to .cshrc)
+
+
+# ITK
+
+I built ITK in /usr/local/jed_build/insight_build on bluering, but had some problems getting the vesselness code to compile when pointing to that build.
+It worked a bit better when I pointed to Roshni's ITK build, which is located here:
+
+/home/bhagalia/externalPackages/itk/Insight-build-release
+
+
+# Upgrading bluering
+
+I am asking to upgrade bluering to a newer version of redhat.  Here is my prep:
+
+1) Get stuff backed up from /no_backup (putting on projects /mercury/Stuff/backup for now)
+   catsim_tgz_archive, NCAT, XCAT, 
+2) Get stuff backed up from /local (also putting on projects /mercury/Stuff/backup for now)
+3) Make list of stuff that was installed in /local:
+   FreeNX, Cuda, FreeMat, cmake, itk, perl, Qt
+4) Document crontab:
+     0 * * * * /home/packj/bin/ctab_hourly.csh
+     0 0 * * * /home/packj/bin/ctab_daily.csh
+
+
+# GLIBC
+
+When you compile a library for use within freemat, you need to make sure the version of glibc that was used during compilation is not newer 
+than the one available on the machine you will run freemat on.
+
+bluering had a very old version of glibc, so I could not run stuff that was compiled on zhye (e.g.) on bluering.
+Now, I updated bluering and it has a newer version than zhye, so i need to compile on zhye or shuksan rather than bluering.
+This way i can run on any of the three.
+
+You can check which version of glibc you have as follows:
+
+ ldd --version
+
+
+# search and replace across multiple files from cmd line:
+
+(from http://rushi.wordpress.com/2008/08/05/find-replace-across-multiple-files-in-linux/)
+
+An example:
+
+find . -name "*.m" -print | xargs sed -ibk 's/isset(/isset_(/g'
+
+you can then verify before deleting the backupfiles:
+
+rm *.mbk
+
+
+#keyboard issue on axon with python
+When I first switched over to axon, i could not get patplotlib to recognize keyboard events.  this helped:
+  export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
+See https://github.com/spyder-ide/spyder/issues/3713

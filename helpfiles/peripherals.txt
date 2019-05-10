@@ -1,0 +1,11 @@
+Wacom tablet
+
+there is an important setting (checkbox): 
+   wacom preferences --> pen --> mapping --> use windows ink
+
+if checked, the pressure sensitivity apparently works better (at least for some apps)
+https://forums.adobe.com/thread/1927390
+
+but important for me:
+    you need to uncheck it to avoid a lag when drawing vessels
+
